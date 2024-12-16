@@ -12,6 +12,9 @@ require_relative "transfer"
 module Yookassa
   module Entity
     class Payment < Dry::Struct
+      IN_PROCESS_STATUSES = %w[pending waiting_for_capture].freeze
+      FINAL_STATUSES = %w[succeeded canceled].freeze
+
       # id [string, required]
       # Payment ID in YooMoney.
       attribute :id, Types::String
@@ -113,6 +116,22 @@ module Yookassa
       # Specified if you want to save a bank card and offer it for a recurring payment
       # in the YooMoney payment widget https://yookassa.ru/en/developers/payment-forms/widget/basics.
       attribute? :merchant_customer_id, Types::String
+
+      def in_process?
+        IN_PROCESS_STATUSES.include?(status)
+      end
+
+      def finalized?
+        FINAL_STATUSES.include?(status)
+      end
+
+      def succeeded?
+        status == "succeeded"
+      end
+
+      def canceled?
+        status == "canceled"
+      end
     end
   end
 end
