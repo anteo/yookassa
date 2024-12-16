@@ -43,7 +43,7 @@ module Yookassa
       body = JSON.parse(response.body.to_s, symbolize_names: true)
       return body if response.status.success?
 
-      Entity::Error.new(**body)
+      raise Error, Entity::Error.new(**body)
     end
   end
 end
