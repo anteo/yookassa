@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require "http"
-require_relative "./entity/error"
+require_relative "entity/error"
+require_relative "error"
 
 module Yookassa
   class Client
